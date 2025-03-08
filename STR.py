@@ -175,7 +175,7 @@ class STR(QWidget):
     def enemy(self):
         try:
             self.enemy_border = self.enemy_border_box.text()
-            self.enemy_border_box = int(self.enemy_border)
+            self.enemy_border = int(self.enemy_border)
         except:
             QMessageBox.information(self, 'Notice', "请稍后输入敌人属性！", QMessageBox.Yes)
 
@@ -238,6 +238,7 @@ class STR(QWidget):
             elif self.attack_style == "1*VIT":
                 VIT = int(VIT)
                 character_data = VIT
+
             elif self.attack_style == "1*INT":
                 INT = int(INT)
                 character_data = INT
@@ -248,7 +249,8 @@ class STR(QWidget):
             effect_par_cap = int(effect_par_cap)
             critical_damage = float(critical_damage)
             critical_rate = float(critical_rate)
-            critical_basic_damage = critical_damage * self.calculate(skill_highest, skill_lowest, effect_par_cap,
+            print(self.enemy_border)
+            critical_basic_damage = (critical_damage+1)* self.calculate(skill_highest, skill_lowest, effect_par_cap,
                                                                      50 + character_data, "damage")
             incritical_basic_damage = self.calculate(skill_highest, skill_lowest, effect_par_cap, character_data,
                                                      "damage")
@@ -258,11 +260,13 @@ class STR(QWidget):
                 basic_damage = critical_basic_damage * critical_rate + incritical_basic_damage * (1 - critical_rate)
             else:
                 basic_damage = incritical_basic_damage = 0
+
+
             self.result_label.setText(
                 f"不暴击基础伤害为{incritical_basic_damage},暴击基础伤害为{critical_basic_damage},期望为{basic_damage}")
             return basic_damage
         except:
-            QMessageBox.information(self, 'Notice', "基础输入有误，请重新输入！", QMessageBox.Yes)
+             QMessageBox.information(self, 'Notice', "基础输入有误，请重新输入！", QMessageBox.Yes)
 
     def attack_up(self):
         normal_attack_up = self.normal_ATK_up_highest_box.text()
