@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QVBoxLayout, QLineEdit, QPushButton, QMessageBox, QT
     QComboBox, QWidget
 
 
-class STR(QWidget):
+class DamageCal(QWidget):
     def __init__(self, attack_style):
         super().__init__()
 
@@ -83,7 +83,7 @@ class STR(QWidget):
 
     def init_ui(self):
         self.setWindowTitle("Heaven Burns Red")
-        self.setGeometry(1000, 500, 800, 800)
+        self.setGeometry(0, 0, 600, 1000)
 
         # 布局
         self.main_layout = QVBoxLayout()
@@ -102,8 +102,9 @@ class STR(QWidget):
             self.LCK_box = self.my_input("运气:")
 
         # 技能数据
-        self.skill_lowest_box = self.my_input("技能伤害下限(1级):")
-        self.skill_highest_box = self.my_input("技能伤害上限(1级):")
+        # self.skill_lowest_box = self.my_input("技能伤害下限(1级):")
+        # self.skill_highest_box = self.my_input("技能伤害上限(1级):")
+        self.skill_lowest_box, self.skill_highest_box = self.horizontal("技能伤害下限:", "技能伤害上限:")
         self.effect_par_cap_box = self.my_input("技能属性差值:")
         self.skill_level_combox = self.my_combox("技能等级:", "skill_level")
 
@@ -112,47 +113,50 @@ class STR(QWidget):
 
         # 连击珠
         self.hit_count_type_box, self.hit_count_box = self.my_combox("连击珠类型:", "hit")
-        # self.hit_count_box = self.my_combox("连击珠层数:","hit_count")
-        self.hit_INT_box = self.my_input("提供连击增益的角色智慧值:")
+
 
         # 加攻
-        self.normal_ATK_up_lowest_box = self.my_input("普通加攻下限:")
-        self.normal_ATK_up_highest_box = self.my_input("普通加攻上限:")
-        self.normal_ATK_up_count_box = self.my_combox("普通加攻层数:", "count")
-        # self.normal_ATK_up_INT_box = self.my_input("提供普通加攻增益的角色智慧值:")
+        self.normal_ATK_up_lowest_box, self.normal_ATK_up_highest_box = self.horizontal("普通加攻下限:",
+                                                                                        "普通加攻上限:")
 
-        self.element_ATK_up_lowest_box = self.my_input("元素加攻下限:")
-        self.element_ATK_up_highest_box = self.my_input("元素加攻上限:")
-        self.normal_ATK_up_count_box = self.my_combox("元素加攻层数:", "count")
-        # self.element_ATK_up_INT_box = self.my_input("提供元素加攻增益的角色智慧值:")
+        self.normal_ATK_up_count_box = self.my_combox("普通加攻层数:", "count")
+
+
+        self.element_ATK_up_lowest_box, self.element_ATK_up_highest_box = self.horizontal("元素加攻下限:",
+                                                                                          "元素加攻上限")
+
+        self.element_ATK_up_count_box = self.my_combox("元素加攻层数:", "count")
+
 
         # 减防
-        self.normal_defend_off_lowest_box = self.my_input("普通减防下限:")
-        self.normal_defend_off_highest_box = self.my_input("普通减防上限:")
+        self.normal_defend_off_lowest_box, self.normal_defend_off_highest_box = self.horizontal("普通减防下限:",
+                                                                                                "普通减防上限:")
         self.normal_defend_off_count_box = self.my_combox("普通减防层数:", "count")
-        self.normal_defend_off_INT_box = self.my_input("提供普通减防的角色智慧值:")
-        self.normal_defend_off_LCK_box = self.my_input("提供普通减防的角色运气值:")
+        self.normal_defend_off_INT_box, self.normal_defend_off_LCK_box = self.horizontal("提供普通减防的角色智慧值:",
+                                                                                         "提供普通减防的角色运气值:")
 
-        self.element_defend_off_lowest_box = self.my_input("元素减防下限:")
-        self.element_defend_off_highest_box = self.my_input("元素减防上限:")
-        self.normal_defend_off_count_box = self.my_combox("元素减防层数:", "count")
-        self.element_defend_off_INT_box = self.my_input("提供普通减防的角色智慧值:")
-        self.element_defend_off_LCK_box = self.my_input("提供普通减防的角色运气值:")
+        self.element_defend_off_lowest_box, self.element_defend_off_highest_box = self.horizontal("元素减防下限:",
+                                                                                                  "元素减防上限:")
+
+        self.element_defend_off_count_box = self.my_combox("元素减防层数:", "count")
+        self.element_defend_off_INT_box, self.element_defend_off_LCK_box = self.horizontal("提供普通减防的角色智慧值:",
+                                                                                           "提供普通减防的角色运气值:")
+
 
         # 暴击
-        self.critical_rate_box = self.my_input("暴击率:")
-        self.critical_damage_box = self.my_input("暴击伤害:")
+        self.critical_rate_box, self.critical_damage_box = self.horizontal("暴击率:", "暴击伤害:")
 
         # 心眼
         self.mindEye_box = self.my_input("心眼:")
         self.mindEye_count_box = self.my_combox("心眼层数:", "count")
 
         # 脆弱
-        self.weakness_highest_box = self.my_input("脆弱上限:")
-        self.weakness_lowest_box = self.my_input("脆弱下限:")
-        self.weakness_count_box = self.my_input("脆弱层数")
-        self.weakness_INT_box = self.my_input("请输入提供脆弱的角色智慧值:")
-        self.weakness_LCK_box = self.my_input("请输入提供脆弱的角色运气值:")
+        self.weakness_highest_box, self.weakness_lowest_box = self.horizontal("脆弱上限:", "脆弱下限:")
+
+        self.weakness_count_box = self.my_combox("脆弱层数:","count")
+        self.weakness_INT_box, self.weakness_LCK_box = self.horizontal("请输入提供脆弱的角色智慧值:",
+                                                                       "请输入提供脆弱的角色运气值:")
+
 
         # 场地
         self.field_box = self.my_combox("场地:", "field")
@@ -168,10 +172,11 @@ class STR(QWidget):
 
         # 数据计算
         self.calculate_btn = QPushButton("计算")
-        self.calculate_btn.clicked.connect(self.basic_damage)
+        self.calculate_btn.clicked.connect(self.final_damage)
         self.main_layout.addWidget(self.calculate_btn)
 
         # 获取敌人属性值
+
     def enemy(self):
         try:
             self.enemy_border = self.enemy_border_box.text()
@@ -249,9 +254,10 @@ class STR(QWidget):
             effect_par_cap = int(effect_par_cap)
             critical_damage = float(critical_damage)
             critical_rate = float(critical_rate)
-            print(self.enemy_border)
-            critical_basic_damage = (critical_damage+1)* self.calculate(skill_highest, skill_lowest, effect_par_cap,
-                                                                     50 + character_data, "damage")
+            # print(self.enemy_border)
+            critical_basic_damage = (critical_damage + 1.5) * self.calculate(skill_highest, skill_lowest,
+                                                                             effect_par_cap,
+                                                                             50 + character_data, "damage")
             incritical_basic_damage = self.calculate(skill_highest, skill_lowest, effect_par_cap, character_data,
                                                      "damage")
             if critical_rate > 1:
@@ -261,12 +267,11 @@ class STR(QWidget):
             else:
                 basic_damage = incritical_basic_damage = 0
 
-
-            self.result_label.setText(
-                f"不暴击基础伤害为{incritical_basic_damage},暴击基础伤害为{critical_basic_damage},期望为{basic_damage}")
+            # self.result_label.setText(
+            #     f"不暴击基础伤害为{int(incritical_basic_damage)},暴击基础伤害为{int(critical_basic_damage)},期望为{int(basic_damage)}")
             return basic_damage
         except:
-             QMessageBox.information(self, 'Notice', "基础输入有误，请重新输入！", QMessageBox.Yes)
+            QMessageBox.information(self, 'Notice', "基础输入有误，请重新输入！", QMessageBox.Yes)
 
     def attack_up(self):
         normal_attack_up = self.normal_ATK_up_highest_box.text()
@@ -278,7 +283,7 @@ class STR(QWidget):
             element_attack_up = float(element_attack_up)
             normal_attack_up_count = int(normal_attack_up_count)
             element_attack_up_count = int(element_attack_up_count)
-            return normal_attack_up * normal_attack_up_count + element_attack_up * element_attack_up_count
+            return 1 + normal_attack_up * normal_attack_up_count + element_attack_up * element_attack_up_count
         except:
             QMessageBox.information(self, 'Notice', "加工输入有误，请重新输入！", QMessageBox.Yes)
 
@@ -311,9 +316,10 @@ class STR(QWidget):
             normal_cap = 2 * normal_defend_off_INT + normal_defend_off_LCK
             element_cap = 2 * element_defend_off_INT + element_defend_off_LCK
 
-            return normal_defend_off_count * self.calculate(normal_defend_off_highest, normal_defend_off_lowest, 123,
-                                                            normal_cap,
-                                                            "debuff") + element_defend_off_count * self.calculate(
+            return 1 + normal_defend_off_count * self.calculate(normal_defend_off_highest, normal_defend_off_lowest,
+                                                                123,
+                                                                normal_cap,
+                                                                "debuff") + element_defend_off_count * self.calculate(
                 element_defend_off_highest, element_defend_off_lowest, 123, element_cap, "debuff")
         except:
             QMessageBox.information(self, 'Notice', "减防输入有误，请重新输入！", QMessageBox.Yes)
@@ -332,7 +338,7 @@ class STR(QWidget):
 
         try:
             hit_count = int(hit_count)
-            return hit_count * hit_damage
+            return 1 + hit_count * hit_damage
         except:
             QMessageBox.information(self, 'Notice', "连击输入有误，请重新输入！", QMessageBox.Yes)
 
@@ -342,7 +348,7 @@ class STR(QWidget):
         try:
             mindEye = float(mindEye)
             mindEye_count = float(mindEye_count)
-            return mindEye * mindEye_count
+            return 1 + mindEye * mindEye_count
         except:
             QMessageBox.information(self, 'Notice', "心眼输入有误，请重新输入！", QMessageBox.Yes)
 
@@ -358,7 +364,8 @@ class STR(QWidget):
             weakness_count = int(weakness_count)
             weakness_INT = int(weakness_INT)
             weakness_LCK = int(weakness_LCK)
-            return self.calculate(weakness_highest, weakness_lowest, 141, 2 * weakness_LCK + weakness_INT, "weak")
+            return 1 + weakness_count * self.calculate(weakness_highest, weakness_lowest, 141,
+                                                       2 * weakness_LCK + weakness_INT, "weak")
         except:
             QMessageBox.information(self, 'Notice', "脆弱输入有误，请重新输入！", QMessageBox.Yes)
 
@@ -370,9 +377,13 @@ class STR(QWidget):
         except:
             QMessageBox.information(self, 'Notice', "场地输入有误，请重新输入！", QMessageBox.Yes)
 
-    # def final_damage(self):
-    #     fdamage = self.basic_damage()*self.attack_up()*self.defend_off()*self.hit()*self.mind_eye()*self.weak()*self.field()
+    def final_damage(self):
+        #try:
+            fdamage = self.basic_damage() * self.attack_up() * self.defend_off() * self.hit() * self.mind_eye() * self.weak() * self.field()
+            self.result_label.setText(f"最终伤害为(期望):{int(fdamage)}")
 
+        # except:
+        #     QMessageBox.information(self,'Notice',"输入有误，请检查后重新输入！",QMessageBox.Ok)
     def my_input(self, label_text):
         layout = QHBoxLayout()
         layout.addWidget(QLabel(label_text))
@@ -380,6 +391,17 @@ class STR(QWidget):
         layout.addWidget(input_box)
         self.main_layout.addLayout(layout)
         return input_box
+
+    def horizontal(self, label1, label2):
+        layout = QHBoxLayout()
+        layout.addWidget(QLabel(label1))
+        lowest_box = QLineEdit()
+        layout.addWidget(lowest_box)
+        layout.addWidget(QLabel(label2))
+        highest_box = QLineEdit()
+        layout.addWidget(highest_box)
+        self.main_layout.addLayout(layout)
+        return lowest_box, highest_box
 
     def my_combox(self, label_text, combo_type):
         layout = QHBoxLayout()
@@ -424,21 +446,22 @@ class STR(QWidget):
             count.addItems({"1", "2"})
             layout.addWidget(count)
             self.main_layout.addLayout(layout)
-
+            return count
         else:
             pass
 
     def on_save(self):
         QMessageBox.information(self, 'Notice', "功能开发中，敬请期待...")
-    # reply = QMessageBox.information(self, 'Notice', "Are you sure to want to save?",
-    #                                 QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
-    # if reply == QMessageBox.Yes:
-    #     QMessageBox.information(self, 'Notice', "The data has been saved successfully!")
-    #     self.close()
-    # else:
-    #     QMessageBox.information(self, 'Notice', "save failed")
+        # reply = QMessageBox.information(self, 'Notice', "Are you sure to want to save?",
+        #                                 QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
+        # if reply == QMessageBox.Yes:
+        #     QMessageBox.information(self, 'Notice', "The data has been saved successfully!")
+        #     self.close()
+        # else:
+        #     QMessageBox.information(self, 'Notice', "save failed")
 
-# def back(self):
+
+''' def back(self):
 #     reply = QMessageBox.information(self,'Notice','确认？',QMessageBox.Yes | QMessageBox.No,QMessageBox.Yes)
 #     if reply == QMessageBox.Yes:
 #         menu = Style()
@@ -446,3 +469,4 @@ class STR(QWidget):
 #         self.close()
 #     else:
 #         pass
+'''
