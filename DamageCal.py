@@ -1,4 +1,4 @@
-from logging import critical
+
 
 from PyQt5.QtWidgets import QVBoxLayout, QLineEdit, QPushButton, QMessageBox, QTextEdit, QDialog, QHBoxLayout, QLabel, \
     QComboBox, QWidget
