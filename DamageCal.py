@@ -1,5 +1,3 @@
-
-
 from PyQt5.QtWidgets import QVBoxLayout, QLineEdit, QPushButton, QMessageBox, QTextEdit, QDialog, QHBoxLayout, QLabel, \
     QComboBox, QWidget
 
@@ -21,11 +19,15 @@ class DamageCal(QWidget):
         self.normal_ATK_up_highest_box = None
         self.normal_ATK_up_count_box = None
         self.normal_ATK_up_INT_box = None
+        self.normal_ATKup_level_box = None
+        self.normal_ATKup_pearl_level_box = None
 
         self.element_ATK_up_lowest_box = None
         self.element_ATK_up_highest_box = None
         self.element_ATK_up_count_box = None
         self.element_ATK_up_INT_box = None
+        self.element_ATKup_level_box = None
+        self.element_ATKup_pearl_level_box = None
 
         # 减防
         self.normal_defend_off_highest_box = None
@@ -33,12 +35,18 @@ class DamageCal(QWidget):
         self.normal_defend_off_count_box = None
         self.normal_defend_off_INT_box = None
         self.normal_defend_off_LCK_box = None
+        self.normal_DFDoff_level_box = None
+        self.normal_DFDoff_pearl_level_box = None
+        # self.eternal_normal_defend_off_box = None
 
         self.element_defend_off_lowest_box = None
         self.element_defend_off_highest_box = None
         self.element_defend_off_count_box = None
         self.element_defend_off_INT_box = None
         self.element_defend_off_LCK_box = None
+        self.element_DFDoff_level_box = None
+        self.element__DFDoff_pearl_level_box = None
+        # self.eternal_element_defend_off_box = None
 
         # 暴击
         self.critical_rate_box = None
@@ -48,6 +56,8 @@ class DamageCal(QWidget):
         self.field_box = None
 
         # 心眼
+        self.mindEye_INT_box = None
+        self.mind_Eye_level_box = None
         self.mindEye_box = None
         self.mindEye_count_box = None
 
@@ -57,6 +67,12 @@ class DamageCal(QWidget):
         self.weakness_count_box = None
         self.weakness_INT_box = None
         self.weakness_LCK_box = None
+
+        # 破坏率
+        self.break_rate_box = None
+
+        # 弱点
+        self.weakpoint_box = None
 
         # 定义功能
         self.calculate_btn = None
@@ -73,6 +89,7 @@ class DamageCal(QWidget):
         self.skill_lowest_box = None
         self.enemy_border_box = None
         self.effect_par_cap_box = None
+        self.skill_pearl_level_box = None
 
         # 定义有关变量
         self.enemy_border = None
@@ -102,64 +119,82 @@ class DamageCal(QWidget):
             self.LCK_box = self.my_input("运气:")
 
         # 技能数据
-        # self.skill_lowest_box = self.my_input("技能伤害下限(1级):")
-        # self.skill_highest_box = self.my_input("技能伤害上限(1级):")
-        self.skill_lowest_box, self.skill_highest_box = self.horizontal("技能伤害下限:", "技能伤害上限:")
+
+        self.skill_lowest_box, self.skill_highest_box = self.horizontal("技能伤害下限(1级):",
+                                                                        "技能伤害上限(1级):")
         self.effect_par_cap_box = self.my_input("技能属性差值:")
-        self.skill_level_combox = self.my_combox("技能等级:", "skill_level")
+        self.skill_level_combox, self.skill_pearl_level_box = self.input_combox("技能等级:", "宝珠强化等级",
+                                                                                "level")
 
         # 敌人属性
         self.enemy_border_box = self.my_input("敌人属性:")
 
-        # 连击珠
-        self.hit_count_type_box, self.hit_count_box = self.my_combox("连击珠类型:", "hit")
+        # 弱点
+        self.weakpoint_box = self.my_input("弱点增伤(单位：%):")
 
+        # 破坏率
+        self.break_rate_box = self.my_input("破坏率(单位：%)")
+
+        # 连击珠
+        self.hit_count_type_box, self.hit_count_box = self.my_combox("连击珠类型:", "连击层数:", "hit")
 
         # 加攻
         self.normal_ATK_up_lowest_box, self.normal_ATK_up_highest_box = self.horizontal("普通加攻下限:",
                                                                                         "普通加攻上限:")
 
-        self.normal_ATK_up_count_box = self.my_combox("普通加攻层数:", "count")
+        self.normal_ATK_up_INT_box, self.normal_ATK_up_count_box = self.input_combox("提供加攻的角色智慧:",
+                                                                                     "加攻层数:", "num")
 
+        self.normal_ATKup_level_box, self.normal_ATKup_pearl_level_box = self.my_combox("技能等级:", "宝珠强化等级:",
+                                                                                        "levels")
 
-        self.element_ATK_up_lowest_box, self.element_ATK_up_highest_box = self.horizontal("元素加攻下限:",
-                                                                                          "元素加攻上限")
+        self.element_ATK_up_lowest_box, self.element_ATK_up_highest_box = self.horizontal("元素加攻下限(单位：%):",
+                                                                                          "元素加攻上限(单位：%)")
 
-        self.element_ATK_up_count_box = self.my_combox("元素加攻层数:", "count")
-
+        self.element_ATK_up_INT_box, self.element_ATK_up_count_box = self.input_combox("提供元素加攻角色智慧:",
+                                                                                       "加攻层数:", "num")
+        self.element_DFDoff_level_box, self.element_ATKup_pearl_level_box = self.my_combox("技能等级:", "宝珠强化等级:",
+                                                                                           "levels")
 
         # 减防
-        self.normal_defend_off_lowest_box, self.normal_defend_off_highest_box = self.horizontal("普通减防下限:",
-                                                                                                "普通减防上限:")
-        self.normal_defend_off_count_box = self.my_combox("普通减防层数:", "count")
+        self.normal_defend_off_lowest_box, self.normal_defend_off_highest_box = self.horizontal("普通减防下限(单位：%):",
+                                                                                                "普通减防上限(单位：%):")
+        self.normal_defend_off_count_box = self.my_combox("普通减防层数:", "", "count")
         self.normal_defend_off_INT_box, self.normal_defend_off_LCK_box = self.horizontal("提供普通减防的角色智慧值:",
                                                                                          "提供普通减防的角色运气值:")
+        self.normal_DFDoff_level_box, self.normal_DFDoff_pearl_level_box = self.my_combox("技能等级:", "宝珠强化等级:",
+                                                                                          "levels")
 
-        self.element_defend_off_lowest_box, self.element_defend_off_highest_box = self.horizontal("元素减防下限:",
-                                                                                                  "元素减防上限:")
+        self.element_defend_off_lowest_box, self.element_defend_off_highest_box = self.horizontal(
+            "元素减防下限(单位：%):",
+            "元素减防上限(单位：%):")
 
-        self.element_defend_off_count_box = self.my_combox("元素减防层数:", "count")
-        self.element_defend_off_INT_box, self.element_defend_off_LCK_box = self.horizontal("提供普通减防的角色智慧值:",
-                                                                                           "提供普通减防的角色运气值:")
-
+        self.element_defend_off_count_box = self.my_combox("元素减防层数:", "", "count")
+        self.element_defend_off_INT_box, self.element_defend_off_LCK_box = self.horizontal("提供元素减防的角色智慧值:",
+                                                                                           "提供元素减防的角色运气值:")
+        self.element_DFDoff_level_box, self.element__DFDoff_pearl_level_box = self.my_combox("技能等级:",
+                                                                                             "宝珠强化等级:",
+                                                                                             "levels")
 
         # 暴击
-        self.critical_rate_box, self.critical_damage_box = self.horizontal("暴击率:", "暴击伤害:")
+        self.critical_rate_box, self.critical_damage_box = self.horizontal("暴击率(单位：%):", "暴击伤害(单位：%):")
 
         # 心眼
-        self.mindEye_box = self.my_input("心眼:")
-        self.mindEye_count_box = self.my_combox("心眼层数:", "count")
+        self.mindEye_box = self.my_input("心眼(单位：%):")
+        self.mindEye_INT_box, self.mind_Eye_level_box = self.input_combox("提供心眼的角色智慧:",
+                                                                          "心眼等级(非自心眼统一为1):",
+                                                                          "level")
+        self.mindEye_count_box = self.my_combox("心眼层数:", "", "count")
 
         # 脆弱
-        self.weakness_highest_box, self.weakness_lowest_box = self.horizontal("脆弱上限:", "脆弱下限:")
+        self.weakness_highest_box, self.weakness_lowest_box = self.horizontal("脆弱上限(单位：%):", "脆弱下限(单位：%):")
 
-        self.weakness_count_box = self.my_combox("脆弱层数:","count")
+        self.weakness_count_box = self.my_combox("脆弱层数:", "", "count")
         self.weakness_INT_box, self.weakness_LCK_box = self.horizontal("请输入提供脆弱的角色智慧值:",
                                                                        "请输入提供脆弱的角色运气值:")
 
-
         # 场地
-        self.field_box = self.my_combox("场地:", "field")
+        self.field_box = self.my_combox("场地:", "", "field")
 
         # 结果显示区
         self.result_label = QTextEdit("结果将显示在这里", self)
@@ -185,9 +220,9 @@ class DamageCal(QWidget):
             QMessageBox.information(self, 'Notice', "请稍后输入敌人属性！", QMessageBox.Yes)
 
     def calculate(self, max_data, min_data, par_cap, character_data, _type):
-        self.enemy()
-        cap = character_data - self.enemy_border
+
         if _type == "damage":
+            cap = character_data - self.enemy_border
             if cap > par_cap:
                 return max_data
             elif 0 < cap <= par_cap:
@@ -196,7 +231,16 @@ class DamageCal(QWidget):
                 return (min_data - 1) / (par_cap / 2) * cap + min_data
             else:
                 return 1
+        elif _type == "debuff":
+            cap = character_data - self.enemy_border
+            if cap > par_cap:
+                return max_data
+            elif 0 < cap <= par_cap:
+                return (max_data - min_data) / par_cap * cap + min_data
+            else:
+                return min_data
         else:
+            cap = character_data
             if cap > par_cap:
                 return max_data
             elif 0 < cap <= par_cap:
@@ -224,6 +268,8 @@ class DamageCal(QWidget):
         # 技能数据
         skill_lowest = self.skill_lowest_box.text()
         skill_highest = self.skill_highest_box.text()
+        skill_level = self.skill_level_combox.currentText()
+        skill_pearl_level = self.skill_pearl_level_box.currentText()
         effect_par_cap = self.effect_par_cap_box.text()
 
         try:
@@ -249,23 +295,31 @@ class DamageCal(QWidget):
                 character_data = INT
             else:
                 character_data = 0
+
             skill_lowest = int(skill_lowest)
             skill_highest = int(skill_highest)
+            skilll_level = int(skill_level)
+            skill_pearl_level = int(skill_pearl_level)
+
             effect_par_cap = int(effect_par_cap)
-            critical_damage = float(critical_damage)
-            critical_rate = float(critical_rate)
-            # print(self.enemy_border)
-            critical_basic_damage = (critical_damage + 1.5) * self.calculate(skill_highest, skill_lowest,
-                                                                             effect_par_cap,
-                                                                             50 + character_data, "damage")
-            incritical_basic_damage = self.calculate(skill_highest, skill_lowest, effect_par_cap, character_data,
-                                                     "damage")
+            critical_damage = float(critical_damage / 100)
+            critical_rate = float(critical_rate / 100)
+
+            incritical_basic_damage = self.calculate(skill_highest * (1 + 0.02 * (skilll_level - 1)),
+                                                     skill_lowest * (1 + 0.05 * (skilll_level - 1)), effect_par_cap,
+                                                     50 + character_data, "damage") + self.calculate(
+                skill_highest * 0.02 * skill_pearl_level,
+                skill_lowest * 0.02 * skill_pearl_level,
+                effect_par_cap + 100, 50 + character_data, "damage")
+
+
             if critical_rate > 1:
-                basic_damage = critical_basic_damage
+                basic_damage = incritical_basic_damage*(1.5+critical_damage)
             elif 0 < critical_rate <= 1:
-                basic_damage = critical_basic_damage * critical_rate + incritical_basic_damage * (1 - critical_rate)
+                basic_damage = (incritical_basic_damage *(1.5+critical_damage) *
+                                critical_rate + incritical_basic_damage * (1 - critical_rate))
             else:
-                basic_damage = incritical_basic_damage = 0
+                basic_damage = incritical_basic_damage
 
             # self.result_label.setText(
             #     f"不暴击基础伤害为{int(incritical_basic_damage)},暴击基础伤害为{int(critical_basic_damage)},期望为{int(basic_damage)}")
@@ -378,12 +432,13 @@ class DamageCal(QWidget):
             QMessageBox.information(self, 'Notice', "场地输入有误，请重新输入！", QMessageBox.Yes)
 
     def final_damage(self):
-        #try:
-            fdamage = self.basic_damage() * self.attack_up() * self.defend_off() * self.hit() * self.mind_eye() * self.weak() * self.field()
-            self.result_label.setText(f"最终伤害为(期望):{int(fdamage)}")
+        self.enemy()
+        # try:
+        fdamage = self.basic_damage() * self.attack_up() * self.defend_off() * self.hit() * self.mind_eye() * self.weak() * self.field()
+        self.result_label.setText(f"最终伤害为(期望):{int(fdamage)}")
 
-        # except:
-        #     QMessageBox.information(self,'Notice',"输入有误，请检查后重新输入！",QMessageBox.Ok)
+    # except:
+    #     QMessageBox.information(self,'Notice',"输入有误，请检查后重新输入！",QMessageBox.Ok)
     def my_input(self, label_text):
         layout = QHBoxLayout()
         layout.addWidget(QLabel(label_text))
@@ -403,9 +458,27 @@ class DamageCal(QWidget):
         self.main_layout.addLayout(layout)
         return lowest_box, highest_box
 
-    def my_combox(self, label_text, combo_type):
+    def input_combox(self, label1, label2, type):
+        level = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13']
         layout = QHBoxLayout()
-        layout.addWidget(QLabel(label_text))
+        layout.addWidget(QLabel(label1))
+        input_box = QLineEdit()
+        layout.addWidget(input_box)
+        layout.addWidget(QLabel(label2))
+        combox_box = QComboBox()
+        if type == "level":
+            combox_box.addItems(level)
+        elif type == "num":
+            combox_box.addItems(['0', '1', '2'])
+        else:
+            pass
+        layout.addWidget(combox_box)
+        self.main_layout.addLayout(layout)
+        return input_box, combox_box
+
+    def my_combox(self, label1, label2, combo_type):
+        layout = QHBoxLayout()
+        layout.addWidget(QLabel(label1))
 
         # 等级选择框
         if combo_type == "skill_level":
@@ -424,14 +497,23 @@ class DamageCal(QWidget):
             layout.addWidget(hit_count_type)
 
             # 连击珠层数选择框
-            layout.addWidget(QLabel("连击珠层数:"))
+            layout.addWidget(QLabel(label2))
             hit_count = QComboBox()
             hit_count.addItems(["0", "3", "5", "6", "10"])
             layout.addWidget(hit_count)
 
             self.main_layout.addLayout(layout)
             return hit_count_type, hit_count
-
+        elif combo_type == "levels":
+            level_box = QComboBox()
+            level_box.addItems(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13'])
+            layout.addWidget(level_box)
+            layout.addWidget(QLabel(label2))
+            pearl_level_box = QComboBox()
+            pearl_level_box.addItems(['0', '1', '2', '3', '4', '5'])
+            layout.addWidget(pearl_level_box)
+            self.main_layout.addLayout(layout)
+            return level_box, pearl_level_box
         # 场地选择框
         elif combo_type == "field":
             field = QComboBox()
@@ -443,7 +525,7 @@ class DamageCal(QWidget):
         # buff/debuff层数选择框
         elif combo_type == "count":
             count = QComboBox()
-            count.addItems({"1", "2"})
+            count.addItems({"0", "1", "2"})
             layout.addWidget(count)
             self.main_layout.addLayout(layout)
             return count
@@ -459,14 +541,3 @@ class DamageCal(QWidget):
         #     self.close()
         # else:
         #     QMessageBox.information(self, 'Notice', "save failed")
-
-
-''' def back(self):
-#     reply = QMessageBox.information(self,'Notice','确认？',QMessageBox.Yes | QMessageBox.No,QMessageBox.Yes)
-#     if reply == QMessageBox.Yes:
-#         menu = Style()
-#         menu.show()
-#         self.close()
-#     else:
-#         pass
-'''
