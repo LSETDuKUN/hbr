@@ -1,5 +1,7 @@
 from PyQt5.QtWidgets import QVBoxLayout, QLineEdit, QPushButton, QMessageBox, QTextEdit, QDialog, QHBoxLayout, QLabel, \
     QComboBox, QWidget
+import pickle
+import os
 
 
 class DamageCal(QWidget):
@@ -99,6 +101,9 @@ class DamageCal(QWidget):
         # 输出结果标签
         self.result_label = None
         self.init_ui()
+        #保存
+        self.saved_data_file = "damage_cal_saved_data.pkl"  # 保存数据的文件名
+        self.load_saved_data()  # 初始化时加载保存的数据
 
     def init_ui(self):
         self.setWindowTitle("Heaven Burns Red")
@@ -613,11 +618,59 @@ class DamageCal(QWidget):
             pass
 
     def on_save(self):
-        QMessageBox.information(self, 'Notice', "功能开发中，敬请期待...")
-        # reply = QMessageBox.information(self, 'Notice', "Are you sure to want to save?",
-        #                                 QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
-        # if reply == QMessageBox.Yes:
-        #     QMessageBox.information(self, 'Notice', "The data has been saved successfully!")
-        #     self.close()
-        # else:
-        #     QMessageBox.information(self, 'Notice', "save failed")
+        """保存当前输入数据"""
+        reply = QMessageBox.question(
+            self,
+            '确认保存',
+            '确定要保存当前输入数据吗？',
+            QMessageBox.Yes | QMessageBox.No,
+            QMessageBox.Yes
+        )
+
+        if reply == QMessageBox.Yes:
+            data = self.collect_data()
+            try:
+                with open(self.saved_data_file, 'wb') as f:
+                    pickle.dump(data, f)
+                QMessageBox.information(self, '成功', "数据已保存！下次打开时会自动加载。")
+            except Exception as e:
+                QMessageBox.warning(self, '错误', f"保存数据时出错: {str(e)}")
+        else:
+            QMessageBox.information(self, '取消', "已取消保存操作")
+
+    def load_saved_data(self):
+        """加载保存的数据"""
+        if os.path.exists(self.saved_data_file):
+            try:
+                with open(self.saved_data_file, 'rb') as f:
+                    saved_data = pickle.load(f)
+                    self.restore_data(saved_data)
+            except:
+                # 如果读取失败，忽略错误
+                pass
+
+    def restore_data(self, saved_data):
+        """恢复保存的数据到UI"""
+        for widget_name, value in saved_data.items():
+            widget = getattr(self, widget_name, None)
+            if widget is not None:
+                if isinstance(widget, QLineEdit):
+                    widget.setText(str(value))
+                elif isinstance(widget, QComboBox):
+                    index = widget.findText(str(value))
+                    if index >= 0:
+                        widget.setCurrentIndex(index)
+
+    def collect_data(self):
+        """收集当前UI中的所有数据"""
+        data = {}
+        # 收集所有QLineEdit和QComboBox的数据
+        for name in dir(self):
+            if name.endswith('_box') or name.endswith('_combox'):
+                widget = getattr(self, name)
+                if isinstance(widget, QLineEdit):
+                    data[name] = widget.text()
+                elif isinstance(widget, QComboBox):
+                    data[name] = widget.currentText()
+        return data
+
